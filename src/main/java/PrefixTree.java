@@ -63,12 +63,12 @@ public class PrefixTree {
             sons.add(newSon);
         }
     }
-    int numberOfWords = 0;
-    Dot root;
+    private int numberOfWords = 0;
+    private final Dot root;
 
     public PrefixTree(){
         numberOfWords = 0;
-        root = new Dot(' ', root);
+        root = new Dot(' ', null);
     }
 
     public void add(String s) {
@@ -81,8 +81,8 @@ public class PrefixTree {
             }
             curr = curr.getSon(sonInd);
         }
+        if(!curr.getWord()) numberOfWords++;
         curr.setWord(true);
-        numberOfWords++;
     }
 
     private int[] find(String s) {
@@ -140,7 +140,7 @@ public class PrefixTree {
         for(int i = 0; i < pref.length(); i++){
             int sonInd = curr.findSon(pref.charAt(i));
             if(sonInd == -1) {
-                String[] arr = new String[ans.size()];
+                String[] arr = new String[0];
                 return ans.toArray(arr);
             }
             curr = curr.getSon(sonInd);
@@ -154,5 +154,9 @@ public class PrefixTree {
     public boolean contains(String s) {
         if(this.find(s).length == 0) return false;
         return true;
+    }
+
+    public int size(){
+        return numberOfWords;
     }
 }
